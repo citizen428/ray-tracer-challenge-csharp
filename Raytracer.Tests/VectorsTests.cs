@@ -1,34 +1,47 @@
-﻿namespace Raytracer.Tests;
-
-using Raytracer.Types;
+﻿using Raytracer.Types;
 using Xunit;
 using static Raytracer.Types.Vectors;
 
-public class VectorTests
+namespace Raytracer.Tests
 {
-    [Fact]
-    public void Point_WComponentEquals1()
+
+    public class VectorTests
     {
-        var p = Point(4.3f, -4.2f, 3.1f);
+        [Fact]
+        public void Point_WComponentEquals1()
+        {
+            var p = Point(4.3f, -4.2f, 3.1f);
 
-        Assert.Equal(1f, p.W);
-    }
+            Assert.Equal(1f, p.W);
+        }
 
-    [Fact]
-    public void Vector_WComponentEquals0()
-    {
-        var p = Vector(4.3f, -4.2f, 3.1f);
+        [Fact]
+        public void Vector_WComponentEquals0()
+        {
+            var p = Vector(4.3f, -4.2f, 3.1f);
 
-        Assert.Equal(0f, p.W);
-    }
+            Assert.Equal(0f, p.W);
+        }
 
-    [Fact]
-    public void Vector_CanComputeCrossProduct()
-    {
-        var v1 = Vector(1f, 2f, 3f);
-        var v2 = Vector(2f, 3f, 4f);
+        [Fact]
+        public void Vector_CanComputeCrossProduct()
+        {
+            var v1 = Vector(1f, 2f, 3f);
+            var v2 = Vector(2f, 3f, 4f);
 
-        Assert.Equal(Vector(-1f, 2f, -1f), v1.Cross(v2));
-        Assert.Equal(Vector(1f, -2f, 1f), v2.Cross(v1));
+            Assert.Equal(Vector(-1f, 2f, -1f), v1.Cross(v2));
+            Assert.Equal(Vector(1f, -2f, 1f), v2.Cross(v1));
+        }
+
+        [Fact]
+        public void RGB_CanConvertFromFloatValuesToColor()
+        {
+            var rgb = RGB(0.59f, 0.65f, 0.23f);
+            var color = rgb.ToColor();
+
+            Assert.Equal(150, color.R);
+            Assert.Equal(165, color.G);
+            Assert.Equal(58, color.B);
+        }
     }
 }

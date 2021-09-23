@@ -1,4 +1,6 @@
-﻿namespace Raytracer.Types
+﻿using System.Drawing;
+
+namespace Raytracer.Types
 {
     internal static class Vector4Extensions
     {
@@ -9,6 +11,19 @@
             var z = (v1.X * v2.Y) - (v2.X * v1.Y);
 
             return new Vector4(x, y, z, 0.0f);
+        }
+    }
+
+    internal static class Vector3Extensions
+    {
+        public static Color ToColor(this Vector3 v)
+        {
+            static int convert(float f)
+            {
+                return (int)(255 * f);
+            }
+
+            return Color.FromArgb(convert(v.X), convert(v.Y), convert(v.Z));
         }
     }
 }
