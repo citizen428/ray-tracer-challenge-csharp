@@ -2,19 +2,19 @@
 {
     internal class Vectors
     {
-        internal static Vector4 Point(float x, float y, float z)
+        internal static Vector<double> Point(double x, double y, double z)
         {
-            return new Vector4(x, y, z, 1f);
+            return Vector<double>.Build.DenseOfArray(new[] { x, y, z, 1 });
         }
 
-        internal static Vector4 Vector(float x, float y, float z)
+        internal static Vector<double> Vector(double x, double y, double z)
         {
-            return new Vector4(x, y, z, 0f);
+            return Vector<double>.Build.DenseOfArray(new[] { x, y, z, 0 });
         }
 
-        internal static Vector3 RGB(float r, float g, float b)
+        internal static Vector<double> RGB(double r, double g, double b)
         {
-            return new Vector3(r, g, b);
+            return Vector<double>.Build.DenseOfArray(new[] { r, g, b });
         }
     }
 }

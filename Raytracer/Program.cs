@@ -1,12 +1,13 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using Raytracer.Types;
 using static Raytracer.Types.Vectors;
 
 namespace Raytracer
 {
-    internal record Projectile(Vector4 Position, Vector4 Velocity);
+    internal record Projectile(Vector<double> Position, Vector<double> Velocity);
 
-    internal record Environment(Vector4 Gravity, Vector4 Wind);
+    internal record Environment(Vector<double> Gravity, Vector<double> Wind);
 
     internal static class Program
     {
@@ -25,7 +26,7 @@ namespace Raytracer
             // Projectile starts one unit above origin
             // Velocity is normalized to 1 unit/tick
             var start = Point(0f, 1f, 0f);
-            var velocity = Vector4.Normalize(Vector(1f, 1.8f, 0f)) * 11.25f;
+            var velocity = Vector(1f, 1.8f, 0f) * 11.25f;
             Projectile? projectile = new(start, velocity);
 
             var gravity = Vector(0f, -0.1f, 0f);
@@ -40,11 +41,11 @@ namespace Raytracer
 
             do
             {
-                var x = (int)projectile.Position.X;
-                var y = ImageHeight - (int)projectile.Position.Y;
+                var x = (int)projectile.Position.X();
+                var y = ImageHeight - (int)projectile.Position.Y();
                 b.SetPixel(x, y, Color.Red);
                 projectile = Tick(environment, projectile);
-            } while (projectile.Position.Y > 0f);
+            } while (projectile.Position.Y() > 0f);
 
             b.Save(@"images\ch02-projectile.png", ImageFormat.Png);
         }
