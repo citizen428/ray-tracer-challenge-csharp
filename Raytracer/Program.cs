@@ -5,33 +5,17 @@ using static Raytracer.Types.Vectors;
 
 namespace Raytracer
 {
-    internal record Projectile(Vector<double> Position, Vector<double> Velocity);
-
-    internal record Environment(Vector<double> Gravity, Vector<double> Wind);
-
     internal static class Program
     {
-        private const int ImageWidth = 900;
-        private const int ImageHeight = 550;
-
-        internal static Projectile Tick(Environment environment, Projectile projectile)
-        {
-            var position = projectile.Position + projectile.Velocity;
-            var velocity = projectile.Velocity + environment.Gravity + environment.Wind;
-            return new Projectile(position, velocity);
-        }
+        private const int ImageWidth = 400;
+        private const int ImageHeight = 400;
 
         internal static void Main()
         {
-            // Projectile starts one unit above origin
-            // Velocity is normalized to 1 unit/tick
-            var start = Point(0f, 1f, 0f);
-            var velocity = Vector(1f, 1.8f, 0f) * 11.25f;
-            Projectile? projectile = new(start, velocity);
-
-            var gravity = Vector(0f, -0.1f, 0f);
-            var wind = Vector(-0.01f, 0f, 0f);
-            Environment? environment = new(gravity, wind);
+            var centerX = ImageWidth / 2;
+            var centerY = ImageHeight / 2;
+            var twelve = Point(0, (float)centerY * 0.8, 0);
+            var hourAngle = Math.PI / 6;
 
             using Bitmap? b = new(ImageWidth, ImageHeight);
             using (var g = Graphics.FromImage(b))
@@ -39,15 +23,16 @@ namespace Raytracer
                 g.Clear(Color.Black);
             }
 
-            do
+            foreach (var hour in Enumerable.Range(1, 12))
             {
-                var x = (int)projectile.Position.X();
-                var y = ImageHeight - (int)projectile.Position.Y();
-                b.SetPixel(x, y, Color.Red);
-                projectile = Tick(environment, projectile);
-            } while (projectile.Position.Y() > 0f);
+                var transformation = Transformation.RotationZ(hourAngle * hour);
+                var point = transformation * twelve;
+                var x = centerX + (int)point.X();
+                var y = centerY - (int)point.Y();
+                b.SetPixel(x, y, Color.White);
+            }
 
-            b.Save(@"images\ch02-projectile.png", ImageFormat.Png);
+            b.Save(@"images/ch04-clock.png", ImageFormat.Png);
         }
     }
 }
