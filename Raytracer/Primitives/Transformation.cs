@@ -1,6 +1,6 @@
-using static Raytracer.Types.Matrices;
+using static Raytracer.Primitives.Matrices;
 
-namespace Raytracer
+namespace Raytracer.Primitives
 {
     internal class Transformation
     {

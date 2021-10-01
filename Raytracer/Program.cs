@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
-using Raytracer.Types;
-using static Raytracer.Types.Vectors;
+using Raytracer.Primitives;
+using static Raytracer.Primitives.Vectors;
 
 namespace Raytracer
 {

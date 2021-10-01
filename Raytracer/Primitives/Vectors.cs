@@ -1,4 +1,4 @@
-﻿namespace Raytracer.Types
+﻿namespace Raytracer.Primitives
 {
     internal class Vectors
     {

@@ -1,6 +1,6 @@
-﻿using Raytracer.Types;
+﻿using Raytracer.Primitives;
 using Xunit;
-using static Raytracer.Types.Vectors;
+using static Raytracer.Primitives.Vectors;
 
 namespace Raytracer.Tests
 {

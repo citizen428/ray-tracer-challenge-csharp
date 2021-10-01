@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Raytracer.Types
+namespace Raytracer.Primitives
 {
     internal static class VectorExtensions
     {
