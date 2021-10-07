@@ -30,10 +30,12 @@ namespace Raytracer.Primitives
 
         public static Vector<double> Unit(this Vector<double> v)
         {
+            var length = v.Length();
+
             return Vector<double>.Build.DenseOfArray(new[] {
-                v.X() / v.Length(),
-                v.Y() / v.Length(),
-                v.Z() / v.Length(),
+                v.X() / length,
+                v.Y() / length,
+                v.Z() / length,
                 0
             });
         }
