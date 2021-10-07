@@ -7,32 +7,42 @@ namespace Raytracer
 {
     internal static class Program
     {
-        private const int ImageWidth = 400;
-        private const int ImageHeight = 400;
-
         internal static void Main()
         {
-            var centerX = ImageWidth / 2;
-            var centerY = ImageHeight / 2;
-            var twelve = Point(0, (float)centerY * 0.8, 0);
-            var hourAngle = Math.PI / 6;
+            var rayOrigin = Point(0, 0, -5);
+            var wallZ = 10.0;
+            var wallSize = 7.0;
+            var canvasSize = 400;
+            var pixelSize = wallSize / canvasSize;
+            var half = wallSize / 2;
+            var sphere = new Sphere();
 
-            using Bitmap? b = new(ImageWidth, ImageHeight);
+            using Bitmap? b = new(canvasSize, canvasSize);
             using (var g = Graphics.FromImage(b))
             {
-                g.Clear(Color.Black);
+                g.Clear(Color.White);
             }
 
-            foreach (var hour in Enumerable.Range(1, 12))
+            foreach (var y in Enumerable.Range(0, canvasSize - 1))
             {
-                var transformation = Transformation.RotationZ(hourAngle * hour);
-                var point = transformation * twelve;
-                var x = centerX + (int)point.X();
-                var y = centerY - (int)point.Y();
-                b.SetPixel(x, y, Color.White);
+                var worldY = half - (pixelSize * y);
+                foreach (var x in Enumerable.Range(0, canvasSize - 1))
+                {
+                    var worldX = -half + (pixelSize * x);
+                    var position = Point(worldX, worldY, wallZ);
+                    var rayDirection = position - rayOrigin.Unit();
+                    var ray = new Ray(rayOrigin, rayDirection);
+
+                    var xs = sphere.Intersect(ray);
+                    var hit = Intersection.Hit(xs);
+                    if (hit is not null)
+                    {
+                        b.SetPixel(x, y, Color.Black);
+                    }
+                }
             }
 
-            b.Save(@"images/ch04-clock.png", ImageFormat.Png);
+            b.Save(@"images/ch05-sphere-shadow.png", ImageFormat.Png);
         }
     }
 }
