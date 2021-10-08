@@ -58,5 +58,10 @@ namespace Raytracer.Primitives
 
             return Color.FromArgb(convert(v.X()), convert(v.Y()), convert(v.Z()));
         }
+
+        public static Vector<double> Reflect(this Vector<double> s, Vector<double> normal)
+        {
+            return s - (normal * 2 * s.DotProduct(normal));
+        }
     }
 }

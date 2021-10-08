@@ -1,6 +1,7 @@
 ﻿using Raytracer.Primitives;
 using Xunit;
 using static Raytracer.Primitives.Vectors;
+using static Raytracer.Tests.Constants;
 
 namespace Raytracer.Tests
 {
@@ -42,6 +43,28 @@ namespace Raytracer.Tests
             Assert.Equal(150, color.R);
             Assert.Equal(165, color.G);
             Assert.Equal(58, color.B);
+        }
+
+        [Fact]
+        public void Vector_ReflectVectorAt45Degrees()
+        {
+            var v = Vector(1, -1, 0);
+            var n = Vector(0, 1, 0);
+
+            var r = v.Reflect(n);
+
+            Assert.Equal(Vector(1, 1, 0), r);
+        }
+
+        [Fact]
+        public void Vector_ReflectingVectorOffASlantedSurface()
+        {
+            var v = Vector(0, -1, 0);
+            var n = Vector(Sqrt2 / 2, Sqrt2 / 2, 0);
+
+            var r = v.Reflect(n);
+
+            Assert.Equal(Vector(1, 0, 0), r, new VectorEqualityComparer());
         }
     }
 }

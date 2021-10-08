@@ -1,11 +1,14 @@
 using Raytracer.Primitives;
 using Xunit;
 using static Raytracer.Primitives.Vectors;
+using static Raytracer.Tests.Constants;
 
 namespace Raytracer.Tests
 {
     public class SphereTests
     {
+        private static readonly VectorEqualityComparer VectorComparer = new();
+
         [Fact]
         public void Sphere_RayIntersectsAtTwoPoints()
         {
@@ -113,6 +116,86 @@ namespace Raytracer.Tests
             var xs = s.Intersect(r);
 
             Assert.Empty(xs);
+        }
+
+        [Fact]
+        public void Sphere_NormalOnAPointAtTheXAxis()
+        {
+            var s = new Sphere();
+
+            var n = s.NormalAt(Point(1, 0, 0));
+
+            Assert.Equal(Vector(1, 0, 0), n);
+        }
+
+        [Fact]
+        public void Sphere_NormalOnAPointAtTheYAxis()
+        {
+            var s = new Sphere();
+
+            var n = s.NormalAt(Point(0, 1, 0));
+
+            Assert.Equal(Vector(0, 1, 0), n);
+        }
+
+        [Fact]
+        public void Sphere_NormalOnAPointAtTheZAxis()
+        {
+            var s = new Sphere();
+
+            var n = s.NormalAt(Point(0, 0, 1));
+
+            Assert.Equal(Vector(0, 0, 1), n);
+        }
+
+        [Fact]
+        public void Sphere_NormalOnAPointAtANonaxialPoint()
+        {
+            var s = new Sphere();
+
+            var x = System.Math.Sqrt(3) / 3;
+            var n = s.NormalAt(Point(x, x, x));
+
+            Assert.Equal(Vector(x, x, x), n);
+        }
+
+        [Fact]
+        public void Sphere_NormalIsANormalizedVector()
+        {
+            var s = new Sphere();
+
+            var x = System.Math.Sqrt(3) / 3;
+            var n = s.NormalAt(Point(x, x, x));
+
+            Assert.Equal(n.Unit(), n);
+        }
+
+        [Fact]
+        public void Sphere_ComputingNormalOnTranslatedSphere()
+        {
+            var s = new Sphere
+            {
+                Transform = Transformation.Translation(0, 1, 0)
+            };
+
+            var n = s.NormalAt(Point(0, 1.70711, -0.70711));
+
+            Assert.Equal(Vector(0, 0.70711, -0.70711), n, VectorComparer);
+        }
+
+        [Fact]
+        public void Sphere_ComputingNormalOnTransformedSphere()
+        {
+            var m = Transformation.Scaling(1, 0.5, 1) *
+                Transformation.RotationZ(System.Math.PI / 5);
+            var s = new Sphere
+            {
+                Transform = m
+            };
+
+            var n = s.NormalAt(Point(0, Sqrt2 / 2, -Sqrt2 / 2));
+
+            Assert.Equal(Vector(0, 0.97014, -0.24254), n, VectorComparer);
         }
     }
 }
