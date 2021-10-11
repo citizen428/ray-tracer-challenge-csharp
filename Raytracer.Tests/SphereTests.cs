@@ -1,4 +1,5 @@
 using Raytracer.Primitives;
+using Raytracer.Scene;
 using Xunit;
 using static Raytracer.Primitives.Vectors;
 using static Raytracer.Tests.Constants;
@@ -196,6 +197,23 @@ namespace Raytracer.Tests
             var n = s.NormalAt(Point(0, Sqrt2 / 2, -Sqrt2 / 2));
 
             Assert.Equal(Vector(0, 0.97014, -0.24254), n, VectorComparer);
+        }
+
+        [Fact]
+        public void Sphere_HasADefaultMaterial()
+        {
+            var s = new Sphere();
+
+            Assert.Equal(new Material(), s.Material);
+        }
+
+        [Fact]
+        public void Sphere_CanHaveACustomMaterial()
+        {
+            var m = new Material { Ambient = 1 };
+            var s = new Sphere(m);
+
+            Assert.Equal(m, s.Material);
         }
     }
 }

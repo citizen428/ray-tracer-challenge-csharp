@@ -21,6 +21,16 @@
         {
             return Vector<double>.Build.DenseOfArray(new[] { r, g, b });
         }
+
+        internal static Vector<double> RGB(double x)
+        {
+            return RGB(x, x, x);
+        }
+
+        internal static Vector<double> RGB(Vector<double> c1, Vector<double> c2)
+        {
+            return RGB(c1.X() * c2.X(), c1.Y() * c2.Y(), c1.Z() * c2.Z());
+        }
     }
 
     internal class VectorEqualityComparer : IEqualityComparer<Vector<double>>

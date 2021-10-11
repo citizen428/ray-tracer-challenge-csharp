@@ -42,9 +42,9 @@ namespace Raytracer.Primitives
 
         public static Vector<double> Cross(this Vector<double> v1, Vector<double> v2)
         {
-            var x = (v1.Y() * v2.Z()) - (v2.Y() * v1.Z());
-            var y = ((v1.X() * v2.Z()) - (v2.X() * v1.Z())) * -1;
-            var z = (v1.X() * v2.Y()) - (v2.X() * v1.Y());
+            var x = (v1.Y() * v2.Z()) - (v1.Z() * v2.Y());
+            var y = (v1.Z() * v2.X()) - (v1.X() * v2.Z());
+            var z = (v1.X() * v2.Y()) - (v1.Y() * v2.X());
 
             return Vector<double>.Build.DenseOfArray(new[] { x, y, z, 0 });
         }

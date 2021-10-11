@@ -1,3 +1,4 @@
+using Raytracer.Scene;
 using static Raytracer.Primitives.Vectors;
 
 namespace Raytracer.Primitives
@@ -5,6 +6,17 @@ namespace Raytracer.Primitives
     internal class Sphere : Shape
     {
         private readonly double radius = 1;
+        internal Material Material { get; init; }
+
+        public Sphere(Material material)
+        {
+            Material = material;
+        }
+
+        public Sphere()
+        {
+            Material = new Material();
+        }
 
         internal Intersection[] Intersect(Ray ray)
         {
