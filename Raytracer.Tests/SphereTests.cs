@@ -47,7 +47,7 @@ namespace Raytracer.Tests
         [Fact]
         public void Sphere_RayOriginatesInsideSphere()
         {
-            var ray = new Ray(Point(0, 0, 0), Vector(0, 0, 1));
+            var ray = new Ray(Origin(), Vector(0, 0, 1));
             var s = new Sphere();
             var xs = s.Intersect(ray);
 

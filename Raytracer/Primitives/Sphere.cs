@@ -5,14 +5,13 @@ namespace Raytracer.Primitives
     internal class Sphere : Shape
     {
         private readonly double radius = 1;
-        private readonly Vector<double> origin = Point(0, 0, 0);
 
         internal Intersection[] Intersect(Ray ray)
         {
             var ray2 = ray.Transform(Transform.Inverse());
 
             // sphere is centered at world origin
-            var sphereToRay = ray2.Origin - origin;
+            var sphereToRay = ray2.Origin - Origin();
             var a = ray2.Direction.DotProduct(ray2.Direction);
             var b = 2 * ray2.Direction.DotProduct(sphereToRay);
             var c = sphereToRay.DotProduct(sphereToRay) - radius;
@@ -33,7 +32,7 @@ namespace Raytracer.Primitives
         internal Vector<double> NormalAt(Vector<double> worldPoint)
         {
             var objectPoint = Transform.Inverse() * worldPoint;
-            var objectNormal = objectPoint - origin;
+            var objectNormal = objectPoint - Origin();
             var wn = Transform.Inverse().Transpose() * objectNormal;
             // resetting w to 0
             var worldNormal = Vector(wn.X(), wn.Y(), wn.Z());
