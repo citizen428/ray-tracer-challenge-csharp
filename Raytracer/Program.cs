@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using Raytracer.Primitives;
+using Raytracer.Scene;
 using static Raytracer.Primitives.Vectors;
 
 namespace Raytracer
@@ -15,7 +16,11 @@ namespace Raytracer
             var canvasSize = 400;
             var pixelSize = wallSize / canvasSize;
             var half = wallSize / 2;
-            var sphere = new Sphere();
+            var material = new Material() { Color = RGB(1, 0.2, 1) };
+            var sphere = new Sphere(material);
+            // Light behind, above and to the left of the eye
+            var lightPosition = Point(-10, 10, -10);
+            var light = new Light(lightPosition, RGB(1));
 
             using Bitmap? b = new(canvasSize, canvasSize);
             using (var g = Graphics.FromImage(b))
@@ -30,19 +35,25 @@ namespace Raytracer
                 {
                     var worldX = -half + (pixelSize * x);
                     var position = Point(worldX, worldY, wallZ);
-                    var rayDirection = position - rayOrigin.Unit();
+                    var rayDirection = (position - rayOrigin).Unit();
                     var ray = new Ray(rayOrigin, rayDirection);
 
                     var xs = sphere.Intersect(ray);
                     var hit = Intersection.Hit(xs);
                     if (hit is not null)
                     {
-                        b.SetPixel(x, y, Color.Black);
+                        var point = ray.Position(hit.T);
+                        var hitSphere = (Sphere)hit.Object;
+                        var eyeV = -ray.Direction;
+                        var normalV = hitSphere.NormalAt(point);
+                        var rgb = hitSphere.Material.Lighting(light, point, eyeV, normalV);
+
+                        b.SetPixel(x, y, rgb.ToColor());
                     }
                 }
             }
 
-            b.Save(@"images/ch05-sphere-shadow.png", ImageFormat.Png);
+            b.Save(@"images/ch06-sphere-lighting.png", ImageFormat.Png);
         }
     }
 }

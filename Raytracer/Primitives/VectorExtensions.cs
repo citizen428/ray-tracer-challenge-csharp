@@ -53,7 +53,7 @@ namespace Raytracer.Primitives
         {
             static int convert(double d)
             {
-                return (int)(255 * d);
+                return (int)(255 * Math.Clamp(d, 0, 1));
             }
 
             return Color.FromArgb(convert(v.X()), convert(v.Y()), convert(v.Z()));
