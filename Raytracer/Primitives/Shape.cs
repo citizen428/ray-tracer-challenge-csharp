@@ -1,7 +1,7 @@
-namespace Raytracer.Primitives
+namespace Raytracer.Primitives;
+
+internal abstract class Shape
 {
-    internal class Shape
-    {
-        public Matrix<double> Transform { get; set; } = Matrices.IdentityMatrix();
-    }
+    internal Matrix<double> Transform { get; set; } = Matrices.IdentityMatrix();
+    internal abstract Intersection[] Intersect(Ray r);
 }

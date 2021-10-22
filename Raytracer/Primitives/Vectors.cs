@@ -1,54 +1,53 @@
-﻿namespace Raytracer.Primitives
+﻿namespace Raytracer.Primitives;
+
+internal class Vectors
 {
-    internal class Vectors
+    internal static Vector<double> Point(double x, double y, double z)
     {
-        internal static Vector<double> Point(double x, double y, double z)
-        {
-            return Vector<double>.Build.DenseOfArray(new[] { x, y, z, 1 });
-        }
-
-        internal static Vector<double> Origin()
-        {
-            return Vector<double>.Build.DenseOfArray(new[] { 0.0, 0, 0, 1 });
-        }
-
-        internal static Vector<double> Vector(double x, double y, double z)
-        {
-            return Vector<double>.Build.DenseOfArray(new[] { x, y, z, 0 });
-        }
-
-        internal static Vector<double> RGB(double r, double g, double b)
-        {
-            return Vector<double>.Build.DenseOfArray(new[] { r, g, b });
-        }
-
-        internal static Vector<double> RGB(double x)
-        {
-            return RGB(x, x, x);
-        }
-
-        internal static Vector<double> RGB(Vector<double> c1, Vector<double> c2)
-        {
-            return RGB(c1.X() * c2.X(), c1.Y() * c2.Y(), c1.Z() * c2.Z());
-        }
+        return Vector<double>.Build.DenseOfArray(new[] { x, y, z, 1 });
     }
 
-    internal class VectorEqualityComparer : IEqualityComparer<Vector<double>>
+    internal static Vector<double> Origin()
     {
-        private static readonly double Epsilon = 0.00001;
+        return Vector<double>.Build.DenseOfArray(new[] { 0.0, 0, 0, 1 });
+    }
 
-        public bool Equals(Vector<double>? v1, Vector<double>? v2)
-        {
-            return v1 != null &&
-                v2 != null &&
-                Math.Abs(v1.X() - v2.X()) < Epsilon &&
-                Math.Abs(v1.Y() - v2.Y()) < Epsilon &&
-                Math.Abs(v1.Z() - v2.Z()) < Epsilon;
-        }
+    internal static Vector<double> Vector(double x, double y, double z)
+    {
+        return Vector<double>.Build.DenseOfArray(new[] { x, y, z, 0 });
+    }
 
-        public int GetHashCode(Vector<double> v)
-        {
-            return v.GetHashCode();
-        }
+    internal static Vector<double> RGB(double r, double g, double b)
+    {
+        return Vector<double>.Build.DenseOfArray(new[] { r, g, b });
+    }
+
+    internal static Vector<double> RGB(double x)
+    {
+        return RGB(x, x, x);
+    }
+
+    internal static Vector<double> RGB(Vector<double> c1, Vector<double> c2)
+    {
+        return RGB(c1.X() * c2.X(), c1.Y() * c2.Y(), c1.Z() * c2.Z());
+    }
+}
+
+internal class VectorEqualityComparer : IEqualityComparer<Vector<double>>
+{
+    private static readonly double Epsilon = 0.00001;
+
+    public bool Equals(Vector<double>? v1, Vector<double>? v2)
+    {
+        return v1 != null &&
+            v2 != null &&
+            Math.Abs(v1.X() - v2.X()) < Epsilon &&
+            Math.Abs(v1.Y() - v2.Y()) < Epsilon &&
+            Math.Abs(v1.Z() - v2.Z()) < Epsilon;
+    }
+
+    public int GetHashCode(Vector<double> v)
+    {
+        return v.GetHashCode();
     }
 }
