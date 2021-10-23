@@ -73,4 +73,21 @@ internal class Transformation
             });
 
     }
+
+    internal static Matrix<double> View(Vector<double> from, Vector<double> to, Vector<double> up)
+    {
+        var forward = (to - from).Unit();
+        var left = forward.Cross(up.Unit());
+        var trueUp = left.Cross(forward);
+
+        var orientation = Matrix(new double[,] {
+            { left.X(), left.Y(), left.Z(), 0 },
+            { trueUp.X(), trueUp.Y(), trueUp.Z(), 0 },
+            { -forward.X(), -forward.Y(), -forward.Z(), 0 },
+            { 0, 0, 0, 1}
+        });
+
+        return orientation * Translation(-from.X(), -from.Y(), -from.Z());
+
+    }
 }

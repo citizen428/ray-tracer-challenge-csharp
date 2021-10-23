@@ -2,6 +2,7 @@ namespace Raytracer.Tests;
 
 using Raytracer.Primitives;
 using Xunit;
+using static Raytracer.Primitives.Matrices;
 using static Raytracer.Primitives.Vectors;
 using static Raytracer.Tests.Constants;
 
@@ -194,4 +195,62 @@ public class TransformationTests
 
         Assert.Equal(Point(15, 0, 7), transform * p, VectorComparer);
     }
+
+    [Fact]
+    public void Transformation_TheTransformationMatrixForTheDefaultOrientation()
+    {
+        var from = Point(0, 0, 0);
+        var to = Point(0, 0, -1);
+        var up = Vector(0, 1, 0);
+
+        var t = Transformation.View(from, to, up);
+
+        Assert.Equal(IdentityMatrix(), t);
+    }
+
+    [Fact]
+    public void Transformation_ViewTransformationMatrixLookingInPositiveDirection()
+    {
+
+        var from = Point(0, 0, 0);
+        var to = Point(0, 0, 1);
+        var up = Vector(0, 1, 0);
+
+        var t = Transformation.View(from, to, up);
+
+        Assert.Equal(Transformation.Scaling(-1, 1, -1), t);
+    }
+
+    [Fact]
+    public void Transformation_ViewTransformationMovesTheWorld()
+    {
+
+        var from = Point(0, 0, 8);
+        var to = Point(0, 0, 0);
+        var up = Vector(0, 1, 0);
+
+        var t = Transformation.View(from, to, up);
+
+        Assert.Equal(Transformation.Translation(0, 0, -8), t);
+    }
+
+    [Fact]
+    public void Transformation_AnArbitraryViewTransformation()
+    {
+
+        var from = Point(1, 3, 2);
+        var to = Point(4, -2, 8);
+        var up = Vector(1, 1, 0);
+
+        var t = Transformation.View(from, to, up);
+
+        var expected = Matrix(new double[,] {
+            { -0.50709, 0.50709, 0.67612, -2.36643 },
+            { 0.76772, 0.60609, 0.12122, -2.82843 },
+            { -0.35857, 0.59761, -0.71714, 0.00000 },
+            { 0.00000, 0.00000, 0.00000, 1.00000 }
+        });
+        Assert.Equal(expected, t, new MatrixEqualityComparer());
+    }
+
 }
