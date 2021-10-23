@@ -6,7 +6,6 @@ using static Raytracer.Primitives.Vectors;
 internal class Sphere : Shape
 {
     private readonly double radius = 1;
-    internal Material Material { get; init; }
 
     public Sphere(Material material)
     {
@@ -41,7 +40,7 @@ internal class Sphere : Shape
             };
     }
 
-    internal Vector<double> NormalAt(Vector<double> worldPoint)
+    internal override Vector<double> NormalAt(Vector<double> worldPoint)
     {
         var objectPoint = Transform.Inverse() * worldPoint;
         var objectNormal = objectPoint - Origin();
