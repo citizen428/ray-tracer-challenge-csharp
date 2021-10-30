@@ -1,5 +1,7 @@
 ﻿namespace Raytracer.Primitives;
 
+using static Raytracer.Constants;
+
 internal class Vectors
 {
     internal static Vector<double> Point(double x, double y, double z)
@@ -35,8 +37,6 @@ internal class Vectors
 
 internal class VectorEqualityComparer : IEqualityComparer<Vector<double>>
 {
-    private static readonly double Epsilon = 0.00001;
-
     public bool Equals(Vector<double>? v1, Vector<double>? v2)
     {
         return v1 != null &&

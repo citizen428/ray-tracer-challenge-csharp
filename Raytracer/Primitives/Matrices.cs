@@ -1,4 +1,7 @@
 namespace Raytracer.Primitives;
+
+using static Raytracer.Constants;
+
 internal class Matrices
 {
     internal static Matrix<double> Matrix(double[,] rows)
@@ -13,7 +16,6 @@ internal class Matrices
 
     internal class MatrixEqualityComparer : IEqualityComparer<Matrix<double>>
     {
-        private static readonly double Epsilon = 0.00001;
 
         public bool Equals(Matrix<double>? m1, Matrix<double>? m2)
         {
